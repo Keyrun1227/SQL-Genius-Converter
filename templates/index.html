@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Kiran GPT-3.5</title>
+    <style>
+        <style>
+            .chat-box {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+        
+            .chat-bubble {
+                margin: 10px 0;
+                padding: 10px 15px;
+                max-width: 70%;
+                border-radius: 10px;
+                word-wrap: break-word;
+            }
+        
+            .user {
+                background-color: #007bff;
+                color: #f2f2f2;
+                float: right;
+            }
+        
+            .bot {
+                background-color: #f8f9fa;
+                color: #333333;
+                float: left;
+            }
+        
+            /* Styles for the dark theme */
+            body.dark-theme {
+                background-color: #1a1a1a;
+                color: #f2f2f2;
+            }
+        
+            body.dark-theme .navbar {
+                background-color: #333333;
+            }
+        
+            body.dark-theme .navbar-brand {
+                color: #f2f2f2;
+            }
+        
+            body.dark-theme .navbar-brand:hover,
+            body.dark-theme .navbar-brand:focus {
+                color: #f2f2f2;
+            }
+        
+            body.dark-theme .nav-link {
+                color: #ffffff;
+            }
+        
+            body.dark-theme .nav-link:hover,
+            body.dark-theme .nav-link:focus {
+                color: #ffffff;
+            }
+        
+            body.dark-theme .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3e%3cpath stroke='rgba(255,255,255,.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+        
+            body.dark-theme .navbar-toggler {
+                border-color: rgba(255,255,255,.1);
+            }
+        
+            body.dark-theme .navbar-toggler:focus,
+            body.dark-theme .navbar-toggler:hover {
+                background-color: rgba(255,255,255,.1);
+            }
+        
+            body.dark-theme .form-control {
+                background-color: #333333;
+                color: #f2f2f2;
+                border: 1px solid #777777;
+            }
+        
+            body.dark-theme .form-control:focus {
+                border-color: #f2f2f2;
+            }
+        
+            body.dark-theme .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+        
+            body.dark-theme .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+        
+            /* Styles for the light theme */
+            body.light-theme {
+                background-color: #f2f2f2;
+                color: #333333;
+            }
+        
+            body.light-theme .navbar {
+                background-color: #f8f9fa;
+            }
+        
+            body.light-theme .navbar-brand {
+                color: white;
+            }
+        
+            body.light-theme .navbar-brand:hover,
+            body.light-theme .navbar-brand:focus {
+                color: white;
+            }
+        
+            body.light-theme .nav-link {
+                color: white;
+            }
+        
+            body.light-theme .nav-link:hover,
+            body.light-theme .nav-link:focus {
+                color: #333333;
+            }
+        
+            body.light-theme .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30'%3e%3cpath stroke='rgba(0,0,0,.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+        
+            body.light-theme .navbar-toggler {
+                border-color: rgba(0,0,0,.1);
+            }
+        
+            body.light-theme .navbar-toggler:focus,
+            body.light-theme .navbar-toggler:hover {
+                background-color: rgba(0,0,0,.1);
+            }
+        
+            body.light-theme .form-control {
+                background-color: #ffffff;
+                color: #333333;
+                border: 1px solid #ced4da;
+            }
+        
+            body.light-theme .form-control:focus {
+                border-color: #80bdff;
+            }
+        
+            body.light-theme .btn-primary {
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+        
+            body.light-theme .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+        
+            /* Additional styling... */
+            .chat-box {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+        
+            .chat-history {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+        
+            .chat-bubble {
+                max-width: 70%;
+                border-radius: 10px;
+                word-wrap: break-word;
+                padding: 10px 15px;
+            }
+        
+            .user {
+                background-color: #007bff;
+                color: #f2f2f2;
+                align-self: flex-end;
+            }
+        
+            .bot {
+                background-color: #f8f9fa;
+                color: #333333;
+                align-self: flex-start;
+            }
+        
+            .chat-input {
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+        
+            .chat-input .form-control {
+                flex: 1;
+            }
+        
+            /* Dark theme */
+            body.dark-theme {
+                background-color: #1a1a1a;
+                color: #f2f2f2;
+            }
+        
+            body.dark-theme .navbar {
+                background-color: #ffffff;
+            }
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .chat-box {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .chat-history {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .chat-bubble {
+            max-width: 80%;
+            border-radius: 10px;
+            word-wrap: break-word;
+            padding: 10px 15px;
+        }
+
+        .user {
+            background-color: #007bff;
+            color: #f2f2f2;
+            align-self: flex-end;
+        }
+
+        .bot {
+            background-color: #f8f9fa;
+            color: #333333;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .chat-input .form-control {
+            flex: 1;
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            .chat-bubble {
+                max-width: 60%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .chat-bubble {
+                max-width: 100%;
+            }
+
+            .chat-input {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link ref="stylesheet">
+    <!-- Replace the Bootstrap link with the latest version if needed -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">Kiran GPT-3.5</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="toggle_theme">Toggle Theme</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chat-box">
+                    <div class="chat-history" id="chat_history">
+                        <!-- Chat history will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <div class="chat-input">
+                    <textarea class="form-control" id="input_text" rows="3" placeholder="Type your message..."></textarea>
+                    <button class="btn btn-primary" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function displayMessage(message, sender) {
+            const chatHistory = document.getElementById('chat_history');
+            const chatBubble = document.createElement('div');
+            chatBubble.classList.add('chat-bubble', sender);
+            chatBubble.innerHTML = `<span class="chat-message">${message}</span>`;
+            chatHistory.appendChild(chatBubble);
+
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        // Function to send message and get response
+        function sendMessage() {
+            const inputText = document.getElementById('input_text').value.trim();
+            if (inputText === '') {
+                return;
+            }
+
+            displayMessage(inputText, 'user');
+
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `input_text=${encodeURIComponent(inputText)}`,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    displayMessage(data.output, 'bot');
+                })
+                .catch(error => console.error('Error:', error));
+
+            document.getElementById('input_text').value = '';
+        }
+
+        function toggleTheme() {
+            const body = document.querySelector('body');
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+        }
+
+        // Attach event listener to toggle button
+        const toggleButton = document.getElementById('toggle_theme');
+        toggleButton.addEventListener('click', toggleTheme);
+
+    </script>
+</body>
+
+</html>
